@@ -28,10 +28,10 @@ const nexmo = new Nexmo({
 
 var msgRef = admin.database().ref("messageQueue");
 
-msgRef.on('child_added' (data) => {
+msgRef.on('child_added', (data) => {
 	console.log(data.val());
 });
-msgRef.on('child_changed' (data) => {
+msgRef.on('child_changed', (data) => {
 	console.log(data.val());
 });
 
