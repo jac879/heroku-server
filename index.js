@@ -3,7 +3,7 @@ var app = express();
 
 var admin = require("firebase-admin");
 
-var serviceAccount = require("weathersight-76387-firebase-adminsdk-dd02w-39c9ef1879.json");
+var serviceAccount = "weathersight-76387-firebase-adminsdk-dd02w-39c9ef1879.json";
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
