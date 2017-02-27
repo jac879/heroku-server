@@ -25,6 +25,16 @@ const nexmo = new Nexmo({
     apiSecret: "85f128449b9fdf9b"
 });
 
+
+var msgRef = admin.database().ref("messageQueue");
+
+msgRef.on('child_added' (data) => {
+	console.log(data.val());
+});
+msgRef.on('child_changed' (data) => {
+	console.log(data.val());
+});
+
 app.set('port', (process.env.PORT || 5000));
 
 app.use(express.static(__dirname + '/public'));
