@@ -1,6 +1,15 @@
 var express = require('express');
 var app = express();
 
+var admin = require("firebase-admin");
+
+var serviceAccount = require("weathersight-76387-firebase-adminsdk-dd02w-39c9ef1879.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://weathersight-76387.firebaseio.com"
+});
+
 var allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
@@ -8,6 +17,7 @@ var allowCrossDomain = function(req, res, next) {
 
     next();
 }
+
 
 const Nexmo = require('nexmo');
 const nexmo = new Nexmo({
@@ -40,7 +50,7 @@ app.get('/testmsg', (req, res) => {
         }
     );
 
-    
+
     res.status(200).end();
 })
 

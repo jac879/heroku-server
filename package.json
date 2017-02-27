@@ -12,6 +12,7 @@
   "dependencies": {
     "ejs": "2.4.1",
     "express": "4.13.3",
+    "firebase-admin": "^4.1.1",
     "nexmo": "^1.2.0"
   },
   "repository": {
