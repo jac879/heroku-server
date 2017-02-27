@@ -60,7 +60,6 @@ app.get('/testmsg', (req, res) => {
         }
     );
 
-
     res.status(200).end();
 })
 
@@ -86,6 +85,9 @@ app.get('/inbound', (req, res) => {
                 message: req.query.text,
                 timestamp: req.query['message-timestamp']
             };
+
+            var finalreff = admin.database().ref("messageQueue/" + incomingData.messageId).set(incomingData);
+
 
             var searchstring = req.query.msisdn;
             searchstring = searchstring.substring(1);
