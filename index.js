@@ -61,30 +61,45 @@ app.get('/testmsg', (req, res) => {
     res.status(200).end();
 })
 
-app.post('/testsms', function(request, res) {
+app.post('/sendsms', function(request, res) {
 
     console.log(request.body);
 
     var id = request.body.lightId;
+    var idToken = request.body.token;
+    var lightSms = request.body.lightSms;
 
-    var message = id + 'test'
+    admin.auth().verifyIdToken(idToken)
+        .then((decodedToken) => {
+            var uid = decodedToken.uid;
 
-    nexmo.message.sendSms(
-        '12075600359', '12286710743', message,
-        (err, responseData) => {
-            if (err) {
-                console.log(err);
+            var message = id + 'test'
 
-                res.setHeader('Content-Type', 'application/json');
-                res.send(JSON.stringify({ a: true }));
-            } else {
-                console.dir(responseData);
+            nexmo.message.sendSms(
+                '12075600359', lightSms, message,
+                (err, responseData) => {
+                    if (err) {
+                        console.log(err);
 
-                res.setHeader('Content-Type', 'application/json');
-                res.send(JSON.stringify({ a: false }));
-            }
-        }
-    );
+                        res.setHeader('Content-Type', 'application/json');
+                        res.send(JSON.stringify({ a: true }));
+                    } else {
+                        console.log(responseData);
+
+                        res.setHeader('Content-Type', 'application/json');
+                        res.send(JSON.stringify({ a: false }));
+                    }
+                }
+            );
+            // ...
+        }).catch((error) => {
+
+            console.log(err);
+
+            res.setHeader('Content-Type', 'application/json');
+            res.send(JSON.stringify({ a: true }));
+
+        });
 
 });
 
