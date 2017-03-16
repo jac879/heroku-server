@@ -1,5 +1,10 @@
 var express = require('express');
+
+var bodyParser = require("body-parser");
 var app = express();
+//Here we are configuring express to use body-parser as middle-ware.
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 var admin = require("firebase-admin");
 
@@ -62,6 +67,15 @@ app.get('/testmsg', (req, res) => {
 
     res.status(200).end();
 })
+
+app.post('/testsms',function(request,response){
+    
+    console.log(request.body);
+
+
+    response.status(200).end();
+
+    });
 
 app.get('/inbound', (req, res) => {
     if (!req.query.to || !req.query.msisdn) {
