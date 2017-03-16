@@ -4,8 +4,6 @@ var cors = require('cors')
 var bodyParser = require("body-parser");
 var app = express();
 
-
-
 app.use(cors());
 //Here we are configuring express to use body-parser as middle-ware.
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -16,11 +14,9 @@ var admin = require("firebase-admin");
 var serviceAccount = "weathersight-76387-firebase-adminsdk-dd02w-39c9ef1879.json";
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://weathersight-76387.firebaseio.com"
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://weathersight-76387.firebaseio.com"
 });
-
-
 
 const Nexmo = require('nexmo');
 const nexmo = new Nexmo({
@@ -28,14 +24,13 @@ const nexmo = new Nexmo({
     apiSecret: "85f128449b9fdf9b"
 });
 
-
 var msgRef = admin.database().ref("messageQueue");
 
 msgRef.on('child_added', (data) => {
-	console.log(data.val());
+    console.log(data.val());
 });
 msgRef.on('child_changed', (data) => {
-	console.log(data.val());
+    console.log(data.val());
 });
 
 app.set('port', (process.env.PORT || 5000));
@@ -66,14 +61,14 @@ app.get('/testmsg', (req, res) => {
     res.status(200).end();
 })
 
-app.post('/testsms',function(request,response){
-    
+app.post('/testsms', function(request, res) {
+
     console.log(request.body);
 
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify({ a: 1 }));
 
-    response.status(200).end();
-
-    });
+});
 
 app.get('/inbound', (req, res) => {
     if (!req.query.to || !req.query.msisdn) {
@@ -99,7 +94,6 @@ app.get('/inbound', (req, res) => {
             };
 
             var finalreff = admin.database().ref("messageQueue/" + incomingData.messageId).set(incomingData);
-
 
             var searchstring = req.query.msisdn;
             searchstring = searchstring.substring(1);
