@@ -65,8 +65,26 @@ app.post('/testsms', function(request, res) {
 
     console.log(request.body);
 
-    res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify({ a: 1 }));
+    var id = request.body.lightId;
+
+    var message = id + 'test'
+
+    nexmo.message.sendSms(
+        '12075600359', '12286710743', message,
+        (err, responseData) => {
+            if (err) {
+                console.log(err);
+
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify({ a: 1 }));
+            } else {
+                console.dir(responseData);
+
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify({ a: 1 }));
+            }
+        }
+    );
 
 });
 
