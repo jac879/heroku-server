@@ -68,12 +68,13 @@ app.post('/sendsms', function(request, res) {
     var id = request.body.lightId;
     var idToken = request.body.token;
     var lightSms = request.body.lightSms;
+    var command = request.body.command;
 
     admin.auth().verifyIdToken(idToken)
         .then((decodedToken) => {
             var uid = decodedToken.uid;
 
-            var message = id + 'test'
+            var message = id + command;
 
             nexmo.message.sendSms(
                 '12075600359', lightSms, message,
