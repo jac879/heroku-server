@@ -76,12 +76,12 @@ app.post('/testsms', function(request, res) {
                 console.log(err);
 
                 res.setHeader('Content-Type', 'application/json');
-                res.send(JSON.stringify({ a: 1 }));
+                res.send(JSON.stringify({ a: true }));
             } else {
                 console.dir(responseData);
 
                 res.setHeader('Content-Type', 'application/json');
-                res.send(JSON.stringify({ a: 1 }));
+                res.send(JSON.stringify({ a: false }));
             }
         }
     );
