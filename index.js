@@ -20,8 +20,8 @@ admin.initializeApp({
 
 const Nexmo = require('nexmo');
 const nexmo = new Nexmo({
-    apiKey: "7b6b75d9",
-    apiSecret: "85f128449b9fdf9b"
+    apiKey: "9d849c12",
+    apiSecret: "71f0997cd3751d3e"
 });
 
 var msgRef = admin.database().ref("messageQueue");
