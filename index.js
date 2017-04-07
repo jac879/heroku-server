@@ -48,7 +48,7 @@ app.get('/', function(request, response) {
 app.get('/testmsg', (req, res) => {
 
     nexmo.message.sendSms(
-        '12075600359', '12286710743', 'yo this is a test message',
+        '12016219300', '12286710743', 'yo this is a test message',
         (err, responseData) => {
             if (err) {
                 console.log(err);
@@ -77,7 +77,7 @@ app.post('/sendsms', function(request, res) {
             var message = id + command;
 
             nexmo.message.sendSms(
-                '12075600359', lightSms, message,
+                '12016219300', lightSms, message,
                 (err, responseData) => {
                     if (err) {
                         console.log(err);
