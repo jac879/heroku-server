@@ -139,6 +139,8 @@ app.get('/inbound', (req, res) => {
             obj['pressure'] = arr[4];
             obj['humidity'] = arr[5];
 
+            incomingData['message'] = obj;
+
             var finalreff = admin.database().ref("messageQueue/" + incomingData.messageId).set(incomingData);
 
             var searchstring = req.query.msisdn;
