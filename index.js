@@ -141,7 +141,8 @@ app.get('/inbound', (req, res) => {
 
             incomingData['message'] = obj;
 
-            var finalreff = admin.database().ref("messageQueue/" + incomingData.messageId).set(incomingData);
+            var finalreff = admin.database().ref("weatherData/" + obj['lightId'] + "/" + incomingData.messageId).set(incomingData);
+            var finalreff = admin.database().ref("lights/" + obj['lightId'] + "/currentWeather").set(obj);
 
             var searchstring = req.query.msisdn;
             searchstring = searchstring.substring(1);
