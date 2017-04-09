@@ -127,6 +127,18 @@ app.get('/inbound', (req, res) => {
                 timestamp: req.query['message-timestamp']
             };
 
+            var arr = incomingData['message'].split("_");
+
+            console.log(arr);
+
+            var obj = {};
+            obj['lightId'] = arr[0];
+            obj['brightness'] = arr[1];
+            obj['moisture'] = arr[2];
+            obj['temp'] = arr[3];
+            obj['pressure'] = arr[4];
+            obj['humidity'] = arr[5];
+
             var finalreff = admin.database().ref("messageQueue/" + incomingData.messageId).set(incomingData);
 
             var searchstring = req.query.msisdn;
