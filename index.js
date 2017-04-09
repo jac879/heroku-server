@@ -135,9 +135,10 @@ app.get('/inbound', (req, res) => {
             obj['lightId'] = arr[0];
             obj['brightness'] = arr[1];
             obj['moisture'] = arr[2];
-            obj['temp'] = arr[3];
-            obj['pressure'] = arr[4];
-            obj['humidity'] = arr[5];
+            obj['raining'] = arr[3];
+            obj['temp'] = arr[4];
+            obj['pressure'] = arr[5];
+            obj['humidity'] = arr[6];
 
             incomingData['message'] = obj;
 
