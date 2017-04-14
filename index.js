@@ -188,7 +188,7 @@ app.get('/testsave', (req, res) => {
 
     messages.forEach((message) => {
 
-        var arr = incomingData['message'].split("_");
+        var arr = message.split("_");
 
         console.log(arr);
 
