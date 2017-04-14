@@ -174,50 +174,44 @@ app.get('/inbound', (req, res) => {
 });
 
 app.get('/testsave', (req, res) => {
-    if (!req.query.to || !req.query.msisdn) {
-        console.log('This is not a valid inbound SMS message!');
-    } else {
-        if (req.query.concat) {
-            console.log('Fail: the message is too long.');
-            console.log(req.query); 
-        } else {
+    /**/
 
-            console.log('Success');
-            var incomingData = {
-                messageId: req.query.messageId,
-                from: req.query.msisdn,
-                message: "aaa001_872_1023_0_24.32_1007.67_44.00_Xaaa002_869_1023_0_24.52_29.77_46.00_",
-                timestamp: req.query['message-timestamp']
-            };
+    console.log('Success');
+    var incomingData = {
+        messageId: "testiD",
+        from: "2286710743",
+        message: "aaa001_872_1023_0_24.32_1007.67_44.00_Xaaa002_869_1023_0_24.52_29.77_46.00_",
+        timestamp: "rightMeow"
+    };
 
-            var messages = incomingData['message'].split("X");
+    var messages = incomingData['message'].split("X");
 
-            messages.forEach((message) => {
+    messages.forEach((message) => {
 
-                var arr = incomingData['message'].split("_");
+        var arr = incomingData['message'].split("_");
 
-                console.log(arr);
+        console.log(arr);
 
-                if (arr.length > 5) {
-                    var obj = {};
-                    obj['lightId'] = arr[0];
-                    obj['brightness'] = arr[1];
-                    obj['moisture'] = arr[2];
-                    obj['raining'] = arr[3];
-                    obj['temp'] = arr[4];
-                    obj['pressure'] = arr[5];
-                    obj['humidity'] = arr[6];
+        if (arr.length > 5) {
+            var obj = {};
+            obj['lightId'] = arr[0];
+            obj['brightness'] = arr[1];
+            obj['moisture'] = arr[2];
+            obj['raining'] = arr[3];
+            obj['temp'] = arr[4];
+            obj['pressure'] = arr[5];
+            obj['humidity'] = arr[6];
 
-                    incomingData['message'] = obj;
+            incomingData['message'] = obj;
 
-                    var finalreff = admin.database().ref("weatherData/" + obj['lightId'] + "/" + incomingData.messageId).set(incomingData);
-                    var finalreff = admin.database().ref("lights/" + obj['lightId'] + "/currentWeather").set(obj);
-                }
-            });
-
-            console.log(incomingData);
+            var finalreff = admin.database().ref("weatherData/" + obj['lightId'] + "/" + incomingData.messageId).set(incomingData);
+            var finalreff = admin.database().ref("lights/" + obj['lightId'] + "/currentWeather").set(obj);
         }
-    }
+    });
+
+    console.log(incomingData);
+    // }
+    //}
     res.status(200).end();
 });
 
