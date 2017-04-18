@@ -145,7 +145,7 @@ app.get('/inbound', (req, res) => {
                     obj['pressure'] = arr[5];
                     obj['humidity'] = arr[6];
 
-                    incomingData['message'] = obj;
+                    incomingData['message'] = obj;
                     var finalreff = admin.database().ref("weatherData/" + obj['lightId'] + "/" + incomingData.messageId).set(incomingData);
                     var finalreff = admin.database().ref("lights/" + obj['lightId'] + "/currentWeather").set(obj);
                 }
@@ -186,7 +186,7 @@ app.get('/testsave', (req, res) => {
             obj['pressure'] = arr[5];
             obj['humidity'] = arr[6];
 
-            incomingData['message'] = obj;
+            incomingData['message'] = obj;
             var finalreff = admin.database().ref("weatherData/" + obj['lightId'] + "/" + incomingData.messageId).set(incomingData);
             var finalreff = admin.database().ref("lights/" + obj['lightId'] + "/currentWeather").set(obj);
         }
