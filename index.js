@@ -105,116 +105,98 @@ app.post('/sendsms', function(request, res) {
 });
 
 app.get('/inbound', (req, res) => {
-    if (!req.query.to || !req.query.msisdn) {
-        console.log('This is not a valid inbound SMS message!');
-    } else {
-        if (req.query.concat) {
-            console.log('Fail: the message is too long.');
-            console.log(req.query);
-            /*
-            {concat: 'true', 'concat-ref': '93', 'concat-total': '5', 'concat-part': '1'...}
-            the message is longer than maximum number of characters allowed, and sent in multiple parts.
-            Use the concat-ref, concat-total and concat-part parameters to reassemble the parts into the message.
-            But I am too lazy so I am ignoring it.
-            */
-        } else {
+            if (!req.query.to || !req.query.msisdn) {
+                console.log('This is not a valid inbound SMS message!');
+            } else {
+                if (req.query.concat) {
+                    console.log('Fail: the message is too long.');
+                    console.log(req.query);
+                    /*
+                    {concat: 'true', 'concat-ref': '93', 'concat-total': '5', 'concat-part': '1'...}
+                    the message is longer than maximum number of characters allowed, and sent in multiple parts.
+                    Use the concat-ref, concat-total and concat-part parameters to reassemble the parts into the message.
+                    But I am too lazy so I am ignoring it.
+                    */
+                } else {
 
-            console.log('Success');
-            var incomingData = {
-                messageId: req.query.messageId,
-                from: req.query.msisdn,
-                message: req.query.text,
-                timestamp: req.query['message-timestamp']
-            };
+                    console.log('Success');
+                    var incomingData = {
+                        messageId: req.query.messageId,
+                        from: req.query.msisdn,
+                        message: req.query.text,
+                        timestamp: req.query['message-timestamp']
+                    };
+                    
+                    var messages = incomingData['message'].split("X");
 
-            var arr = incomingData['message'].split("_");
+                    messages.forEach((message) => {
 
-            console.log(arr);
+                            var arr = message.split("_");
 
-            var obj = {};
-            obj['lightId'] = arr[0];
-            obj['brightness'] = arr[1];
-            obj['moisture'] = arr[2];
-            obj['raining'] = arr[3];
-            obj['temp'] = arr[4];
-            obj['pressure'] = arr[5];
-            obj['humidity'] = arr[6];
+                            console.log(arr);
 
-            incomingData['message'] = obj;
+                            if (arr.length > 5) {
+                                var obj = {};
+                                obj['lightId'] = arr[0];
+                                obj['brightness'] = arr[1];
+                                obj['moisture'] = arr[2];
+                                obj['raining'] = arr[3];
+                                obj['temp'] = arr[4];
+                                obj['pressure'] = arr[5];
+                                obj['humidity'] = arr[6];
 
-            var finalreff = admin.database().ref("weatherData/" + obj['lightId'] + "/" + incomingData.messageId).set(incomingData);
-            var finalreff = admin.database().ref("lights/" + obj['lightId'] + "/currentWeather").set(obj);
+                                incomingData['message'] = obj;
+                                var finalreff = admin.database().ref("weatherData/" + obj['lightId'] + "/" + incomingData.messageId).set(incomingData);
+                                var finalreff = admin.database().ref("lights/" + obj['lightId'] + "/currentWeather").set(obj);
+                            }
 
-            var searchstring = req.query.msisdn;
-            searchstring = searchstring.substring(1);
+                            console.log(incomingData);
+                        }
+                    }
+                    res.status(200).end();
+                });
 
-            /* var ref = admin.database().ref("massTextList/" + searchstring);
+            app.get('/testsave', (req, res) => {
+                /**/
 
-             // Attach an asynchronous callback to read the data at our posts reference
-             ref.once("value", function(snapshot) {
-                 console.log(snapshot.val());
-                 if (snapshot.val() == null) {
-                     console.log("user not found, ignore and disregard");
-                 } else {
-                     console.log("user found..");
+                console.log('Success');
+                var incomingData = {
+                    messageId: "testiD",
+                    from: "2286710743",
+                    message: "aaa001_872_1023_0_24.32_1007.67_44.00_Xaaa002_869_1023_0_24.52_29.77_46.00_",
+                    timestamp: "rightMeow"
+                };
 
-                     incomingData['name'] = snapshot.val()['name'];
-                     var reffer = admin.database().ref("massTextQueue").push(incomingData);
+                var messages = incomingData['message'].split("X");
 
-                 }
+                messages.forEach((message) => {
 
-             }, function(errorObject) {
-                 console.log("The read failed: " + errorObject.code);
-             });*/
+                    var arr = message.split("_");
 
-            console.log(incomingData);
-        }
-    }
-    res.status(200).end();
-});
+                    console.log(arr);
 
-app.get('/testsave', (req, res) => {
-    /**/
+                    if (arr.length > 5) {
+                        var obj = {};
+                        obj['lightId'] = arr[0];
+                        obj['brightness'] = arr[1];
+                        obj['moisture'] = arr[2];
+                        obj['raining'] = arr[3];
+                        obj['temp'] = arr[4];
+                        obj['pressure'] = arr[5];
+                        obj['humidity'] = arr[6];
 
-    console.log('Success');
-    var incomingData = {
-        messageId: "testiD",
-        from: "2286710743",
-        message: "aaa001_872_1023_0_24.32_1007.67_44.00_Xaaa002_869_1023_0_24.52_29.77_46.00_",
-        timestamp: "rightMeow"
-    };
+                        incomingData['message'] = obj;
+                        var finalreff = admin.database().ref("weatherData/" + obj['lightId'] + "/" + incomingData.messageId).set(incomingData);
+                        var finalreff = admin.database().ref("lights/" + obj['lightId'] + "/currentWeather").set(obj);
+                    }
+                });
 
-    var messages = incomingData['message'].split("X");
+                console.log(incomingData);
+                // }
+                //}
+                res.status(200).end();
+            });
 
-    messages.forEach((message) => {
-
-        var arr = message.split("_");
-
-        console.log(arr);
-
-        if (arr.length > 5) {
-            var obj = {};
-            obj['lightId'] = arr[0];
-            obj['brightness'] = arr[1];
-            obj['moisture'] = arr[2];
-            obj['raining'] = arr[3];
-            obj['temp'] = arr[4];
-            obj['pressure'] = arr[5];
-            obj['humidity'] = arr[6];
-
-            incomingData['message'] = obj;
-
-            var finalreff = admin.database().ref("weatherData/" + obj['lightId'] + "/" + incomingData.messageId).set(incomingData);
-            var finalreff = admin.database().ref("lights/" + obj['lightId'] + "/currentWeather").set(obj);
-        }
-    });
-
-    console.log(incomingData);
-    // }
-    //}
-    res.status(200).end();
-});
-
-app.listen(app.get('port'), function() {
-    console.log('Node app is running on port', app.get('port'));
-});
+            app.listen(app.get('port'), function() {
+                console.log('Node app is running on port', app.get('port'));
+            });
