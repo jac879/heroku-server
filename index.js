@@ -135,7 +135,7 @@ app.get('/inbound', (req, res) => {
 
                 console.log(arr);
 
-                if (arr.length > 5) {
+                if (arr.length > 6) {
                     var obj = {};
                     obj['lightId'] = arr[0];
                     obj['brightness'] = arr[1];
