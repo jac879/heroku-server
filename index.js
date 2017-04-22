@@ -134,7 +134,7 @@ app.get('/inbound', (req, res) => {
                 var arr = message.split("_");
 
                 console.log(arr);
-
+
                 if (arr.length > 5) {
                     var obj = {};
                     obj['lightId'] = arr[0];
@@ -142,8 +142,9 @@ app.get('/inbound', (req, res) => {
                     obj['moisture'] = arr[2];
                     obj['raining'] = arr[3];
                     obj['temp'] = arr[4];
-                    obj['pressure'] = arr[5];
-                    obj['humidity'] = arr[6];
+                    obj['tempf'] = arr[5];
+                    obj['pressure'] = arr[6];
+                    obj['humidity'] = arr[7];
 
                     incomingData['message'] = obj;
                     var finalreff = admin.database().ref("weatherData/" + obj['lightId'] + "/" + incomingData.messageId).set(incomingData);
