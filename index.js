@@ -133,8 +133,9 @@ app.get('/inbound', (req, res) => {
 
                 var arr = message.split("_");
 
+                console.log(message);
                 console.log(arr);
-
+
                 if (arr.length > 6) {
                     var obj = {};
                     obj['lightId'] = arr[0];
