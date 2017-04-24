@@ -135,7 +135,7 @@ app.get('/inbound', (req, res) => {
 
                 console.log(message);
                 console.log(arr);
-
+
                 if (arr.length > 6) {
                     var obj = {};
                     obj['lightId'] = arr[0];
@@ -148,8 +148,13 @@ app.get('/inbound', (req, res) => {
                     obj['humidity'] = arr[7];
 
                     incomingData['message'] = obj;
+                    if(obj['lightId'].includes("aaa00"))
+                    {
+
                     var finalreff = admin.database().ref("weatherData/" + obj['lightId'] + "/" + incomingData.messageId).set(incomingData);
                     var finalreff = admin.database().ref("lights/" + obj['lightId'] + "/currentWeather").set(obj);
+                
+                    }
                 }
 
                 console.log(incomingData);
