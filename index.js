@@ -150,7 +150,7 @@ app.get('/inbound', (req, res) => {
                     incomingData['message'] = obj;
                     if(obj['lightId'].includes("aaa00"))
                     {
-
+                        console.log("_______________SAVED TO FIREBASE_________________");
                     var finalreff = admin.database().ref("weatherData/" + obj['lightId'] + "/" + incomingData.messageId).set(incomingData);
                     var finalreff = admin.database().ref("lights/" + obj['lightId'] + "/currentWeather").set(obj);
                 
